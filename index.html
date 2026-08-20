@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>Made in Bali</title>
+<meta name="description" content="Made in Bali — балийский ресторан и бар на Пушкинской набережной, 6. Панорамный вид на Москву-реку, 9 000 артефактов с острова, авторские коктейли. Ежедневно 12:00–00:00.">
+
+<style>
+/* ================= tokens — dark is the base look ================= */
+:root{
+  --night:#0F0D0C;
+  --night-2:#16120F;
+  --panel:#1C1714;
+  --panel-2:#241D18;
+  --sand:#F4EBE0;
+  --sand-soft:#D6C9BB;
+  --muted:#9C8D7F;
+  --line:rgba(244,235,224,.14);
+  --line-soft:rgba(244,235,224,.08);
+  --pandan:#AFCE45;
+  --pandan-deep:#8FAF2E;
+  --ember:#E2723F;
+  --on-accent:#131009;
+  --shadow:0 2px 4px rgba(0,0,0,.4), 0 24px 60px -32px rgba(0,0,0,1);
+  --sun-o:1; --moon-o:0;
+
+  --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:Georgia,"Iowan Old Style","Palatino Linotype","Times New Roman",serif;
+  --wrap:1240px;
+}
+
+/* light: warm sand / bamboo — for daytime and for printing */
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --night:#F2EBE1;
+    --night-2:#EDE4D8;
+    --panel:#FBF6EF;
+    --panel-2:#F5EDE2;
+    --sand:#1A1512;
+    --sand-soft:#4A3F37;
+    --muted:#7A6C5E;
+    --line:rgba(26,21,18,.16);
+    --line-soft:rgba(26,21,18,.09);
+    --pandan:#6E8C15;
+    --pandan-deep:#5A7310;
+    --ember:#C4551F;
+    --on-accent:#FBF8F2;
+    --shadow:0 1px 2px rgba(26,21,18,.05), 0 18px 44px -30px rgba(26,21,18,.5);
+    --sun-o:0; --moon-o:1;
+  }
+}
+:root[data-theme="light"]{
+  --night:#F2EBE1;
+  --night-2:#EDE4D8;
+  --panel:#FBF6EF;
+  --panel-2:#F5EDE2;
+  --sand:#1A1512;
+  --sand-soft:#4A3F37;
+  --muted:#7A6C5E;
+  --line:rgba(26,21,18,.16);
+  --line-soft:rgba(26,21,18,.09);
+  --pandan:#6E8C15;
+  --pandan-deep:#5A7310;
+  --ember:#C4551F;
+  --on-accent:#FBF8F2;
+  --shadow:0 1px 2px rgba(26,21,18,.05), 0 18px 44px -30px rgba(26,21,18,.5);
+  --sun-o:0; --moon-o:1;
+}
+
+/* ================= base ================= */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--night);color:var(--sand);
+  font-family:var(--sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,h4{margin:0;line-height:1.05;letter-spacing:-.025em;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+svg{display:block}
+:focus-visible{outline:2px solid var(--pandan);outline-offset:3px;border-radius:2px}
+
+.wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:0 26px}
+.eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--pandan);
+}
+.num{font-variant-numeric:lining-nums tabular-nums}
+.display{font-weight:800;text-transform:uppercase;letter-spacing:-.03em}
+.prose{font-family:var(--serif);letter-spacing:0;text-transform:none;font-weight:400}
+
+/* ================= buttons ================= */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:15px 26px;border-radius:100px;border:1px solid var(--pandan);
+  background:var(--pandan);color:var(--on-accent);
+  font-size:14px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+  cursor:pointer;white-space:nowrap;
+  transition:transform .16s ease,background .16s ease,border-color .16s ease,color .16s ease;
+}
+.btn:hover{transform:translateY(-2px);background:var(--pandan-deep);border-color:var(--pandan-deep)}
+.btn--ghost{background:transparent;color:var(--sand);border-color:var(--line)}
+.btn--ghost:hover{background:transparent;border-color:var(--sand);color:var(--sand)}
+.btn--sm{padding:11px 18px;font-size:12px}
+
+/* ================= nav ================= */
+.nav{
+  position:sticky;top:0;z-index:80;
+  background:color-mix(in srgb,var(--night) 86%,transparent);
+  backdrop-filter:blur(14px) saturate(1.4);
+  border-bottom:1px solid transparent;transition:border-color .3s ease;
+}
+.nav.is-stuck{border-bottom-color:var(--line-soft)}
+.nav__in{display:flex;align-items:center;gap:22px;height:70px}
+.logo{display:flex;flex-direction:column;gap:2px;flex:0 0 auto;line-height:1}
+.logo b{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.logo span{font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+.nav__links{display:flex;gap:24px;margin-left:auto;font-size:13.5px;letter-spacing:.04em}
+.nav__links a{color:var(--sand-soft);transition:color .16s}
+.nav__links a:hover,.nav__links a.on{color:var(--pandan)}
+.nav__act{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+
+.tglt{
+  position:relative;flex:0 0 auto;width:36px;height:36px;padding:0;
+  display:grid;place-items:center;background:transparent;
+  border:1px solid var(--line);border-radius:100px;color:var(--sand-soft);cursor:pointer;
+  transition:border-color .16s ease,color .16s ease;
+}
+.tglt:hover{border-color:var(--pandan);color:var(--pandan)}
+.tglt__ico{position:absolute;width:17px;height:17px;transition:opacity .3s ease,transform .4s cubic-bezier(.3,.8,.3,1)}
+.tglt__sun{opacity:var(--sun-o);transform:scale(calc(.5 + var(--sun-o)*.5)) rotate(calc(var(--moon-o) * -70deg))}
+.tglt__moon{opacity:var(--moon-o);transform:scale(calc(.5 + var(--moon-o)*.5)) rotate(calc(var(--sun-o) * 70deg))}
+@media (prefers-reduced-motion:reduce){.tglt__ico{transition:opacity .3s ease}}
+
+.burger{display:none;background:none;border:0;padding:10px;cursor:pointer}
+.burger span{display:block;width:22px;height:1.5px;background:var(--sand);margin:5px 0}
+
+/* ================= views ================= */
+.view{display:none}
+.view.on{display:block}
+
+/* ================= decorative panels (photo slots) ================= */
+.ph{
+  position:relative;overflow:hidden;border-radius:4px;
+  background:var(--panel);border:1px solid var(--line-soft);
+  isolation:isolate;
+}
+.ph::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(80% 90% at 20% 15%,color-mix(in srgb,var(--pandan) 22%,transparent),transparent 62%),
+    radial-gradient(70% 80% at 90% 85%,color-mix(in srgb,var(--ember) 26%,transparent),transparent 60%);
+}
+.ph__art{position:absolute;inset:0;z-index:1;width:100%;height:100%;opacity:.5}
+.ph__tag{
+  position:absolute;z-index:2;left:16px;bottom:14px;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand-soft);
+  background:color-mix(in srgb,var(--night) 70%,transparent);
+  padding:6px 10px;border-radius:100px;backdrop-filter:blur(6px);
+}
+
+/* ================= hero ================= */
+/* The hero sits on a photograph, so it keeps light-on-dark colours in BOTH
+   themes — the tokens are redefined locally and every child inherits them. */
+.hero{
+  position:relative;display:flex;align-items:flex-end;overflow:hidden;
+  min-height:min(86vh,720px);
+  --sand:#F7F2EB; --sand-soft:#E0D7CB; --muted:#C3B8AA; --line:rgba(255,255,255,.3);
+  --pandan:#AFCE45; --pandan-deep:#8FAF2E; --on-accent:#131009;
+  /* `color` must be re-declared here: redefining the token alone does not
+     touch the colour already inherited from body. */
+  color:var(--sand);
+}
+.hero__img{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover}
+.hero__veil{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(to top,rgba(10,8,7,.94) 0%,rgba(10,8,7,.74) 34%,rgba(10,8,7,.28) 66%,rgba(10,8,7,.42) 100%),
+    linear-gradient(to right,rgba(10,8,7,.6),transparent 62%);
+}
+.hero__in{position:relative;z-index:2;width:100%;padding-top:120px;padding-bottom:60px}
+.hero__copy{max-width:min(720px,92%)}
+.status{
+  display:inline-flex;align-items:center;gap:9px;margin-bottom:24px;
+  padding:7px 15px 7px 11px;border:1px solid var(--line);border-radius:100px;
+  font-size:12px;letter-spacing:.05em;color:var(--sand-soft);
+}
+.status__dot{width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.status.is-open .status__dot{background:var(--pandan);box-shadow:0 0 0 3px color-mix(in srgb,var(--pandan) 25%,transparent)}
+.status.is-closed .status__dot{background:var(--ember);box-shadow:0 0 0 3px color-mix(in srgb,var(--ember) 25%,transparent)}
+.hero h1{font-size:clamp(40px,6.4vw,82px);font-weight:800;text-transform:uppercase;letter-spacing:-.035em}
+.hero h1 span{display:block;color:var(--pandan)}
+.hero__sub{
+  margin-top:24px;max-width:44ch;font-family:var(--serif);
+  font-size:clamp(17px,1.8vw,20px);line-height:1.5;color:var(--sand-soft);
+}
+.hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+
+/* ================= facts ================= */
+.facts{border-block:1px solid var(--line-soft);background:var(--night-2)}
+.facts__in{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft)}
+.facts__in > div{background:var(--night-2);padding:30px 24px}
+.facts b{display:block;font-size:30px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:lining-nums tabular-nums}
+.facts span{display:block;margin-top:7px;font-size:12.5px;line-height:1.45;color:var(--muted)}
+
+/* ================= sections ================= */
+.sec{padding:88px 0}
+.sec--tint{background:var(--night-2);border-block:1px solid var(--line-soft)}
+.sec__head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:20px;margin-bottom:34px}
+.sec__head h2{font-size:clamp(26px,3.8vw,44px);font-weight:800;text-transform:uppercase}
+.sec__head .eyebrow{display:block;margin-bottom:12px}
+.sec__head p{max-width:46ch;font-family:var(--serif);color:var(--sand-soft);font-size:17px}
+.sec__head .grow{margin-left:auto}
+
+/* ================= horizontal rail ================= */
+.rail{
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(248px,268px);
+  gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:4px 26px 18px;margin:0 -26px;
+  scrollbar-width:thin;scrollbar-color:var(--line) transparent;
+}
+.rail::-webkit-scrollbar{height:6px}
+.rail::-webkit-scrollbar-thumb{background:var(--line);border-radius:100px}
+.rail > *{scroll-snap-align:start}
+.rail__hint{margin-top:2px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+
+.dish{
+  display:flex;flex-direction:column;height:100%;
+  background:var(--panel);border:1px solid var(--line-soft);border-radius:5px;overflow:hidden;
+  transition:border-color .18s ease,transform .18s ease;
+}
+.dish:hover{border-color:var(--line);transform:translateY(-3px)}
+.dish__body{padding:22px;display:flex;flex-direction:column;flex:1;min-height:186px}
+.dish__name{font-size:16.5px;font-weight:700;letter-spacing:-.01em}
+.dish__desc{margin-top:8px;font-family:var(--serif);font-size:14.5px;line-height:1.45;color:var(--muted);flex:1}
+.dish__foot{display:flex;align-items:center;gap:10px;margin-top:16px}
+.dish__price{font-size:17px;font-weight:800;font-variant-numeric:lining-nums tabular-nums}
+.tag{
+  font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 9px;border-radius:100px;margin-left:auto;
+  background:color-mix(in srgb,var(--ember) 18%,transparent);color:var(--ember);
+}
+
+/* cocktail card — no photo, typographic */
+.ckt{
+  display:flex;flex-direction:column;justify-content:space-between;height:100%;min-height:196px;
+  padding:22px;border-radius:5px;border:1px solid var(--line-soft);
+  background:linear-gradient(155deg,var(--panel-2),var(--panel));
+  transition:border-color .18s ease,transform .18s ease;
+}
+.ckt:hover{border-color:var(--pandan);transform:translateY(-3px)}
+.ckt__no{font-size:11px;letter-spacing:.18em;color:var(--muted);font-variant-numeric:lining-nums}
+.ckt__name{margin-top:14px;font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.ckt__mix{margin-top:10px;font-family:var(--serif);font-size:14.5px;color:var(--sand-soft)}
+.ckt__price{margin-top:18px;font-size:16px;font-weight:800;font-variant-numeric:lining-nums tabular-nums;color:var(--pandan)}
+
+/* ================= wine teaser ================= */
+.wine{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.wine__stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:5px;overflow:hidden}
+.wine__stats > div{background:var(--night);padding:24px}
+.sec--tint .wine__stats > div{background:var(--night-2)}
+.wine__stats b{display:block;font-size:26px;font-weight:800;font-variant-numeric:lining-nums tabular-nums;letter-spacing:-.02em}
+.wine__stats span{display:block;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.flags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.flags li{font-size:12.5px;padding:7px 13px;border:1px solid var(--line);border-radius:100px;color:var(--sand-soft)}
+
+/* ================= atmosphere ================= */
+.atmo{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:212px;gap:12px}
+.shot{margin:0;overflow:hidden;border-radius:5px;border:1px solid var(--line-soft);background:var(--panel)}
+.shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.shot:hover img{transform:scale(1.04)}
+@media (prefers-reduced-motion:reduce){.shot img,.shot:hover img{transition:none;transform:none}}
+.shot--big{grid-column:span 2;grid-row:span 2}
+.shot--tall{grid-row:span 2}
+.atmo__note{margin-top:26px;font-family:var(--serif);color:var(--sand-soft);max-width:60ch;font-size:16.5px}
+
+/* ================= quotes ================= */
+.quotes{columns:3;column-gap:16px}
+.quote{
+  break-inside:avoid;margin-bottom:16px;padding:24px;
+  border:1px solid var(--line-soft);border-radius:5px;background:var(--panel);
+}
+.quote p{font-family:var(--serif);font-size:16.5px;line-height:1.55}
+.quote p::before{content:"«"}
+.quote p::after{content:"»"}
+.quote__by{display:flex;align-items:baseline;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line-soft)}
+.quote__by b{font-size:12.5px;font-weight:700}
+.quote__by span{font-size:11.5px;color:var(--muted);margin-left:auto}
+
+/* ================= contacts ================= */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+.dl > div{padding:20px 0;border-bottom:1px solid var(--line-soft)}
+.dl > div:first-child{padding-top:0}
+.dl dt{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.dl dd{margin:0;font-size:21px;font-weight:700;letter-spacing:-.01em}
+.dl dd small{display:block;margin-top:7px;font-size:13px;font-weight:400;color:var(--muted);letter-spacing:0}
+a.link{border-bottom:1px solid var(--line);transition:color .16s ease,border-color .16s ease}
+a.link:hover{color:var(--pandan);border-color:var(--pandan)}
+.routes{display:grid;gap:11px;margin:18px 0 24px}
+.routes li{display:flex;gap:13px;font-size:14.5px}
+.routes b{min-width:60px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ================= closing ================= */
+.close{padding:92px 0;text-align:center;border-top:1px solid var(--line-soft);background:var(--night-2)}
+.close h2{font-size:clamp(28px,5vw,52px);font-weight:800;text-transform:uppercase;margin-bottom:18px}
+.close p{max-width:44ch;margin:0 auto 30px;font-family:var(--serif);font-size:17.5px;color:var(--sand-soft)}
+.close__cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+
+.foot{padding:32px 0;border-top:1px solid var(--line-soft)}
+.foot__in{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;font-size:13px;color:var(--muted)}
+.foot__in b{color:var(--sand)}
+.foot__in .grow{margin-left:auto;display:flex;gap:20px}
+.foot a:hover{color:var(--pandan)}
+
+/* ================= MENU VIEW ================= */
+.mhead{padding:40px 0 22px}
+.mhead h1{font-size:clamp(30px,5vw,54px);font-weight:800;text-transform:uppercase}
+.mhead p{margin-top:12px;font-family:var(--serif);color:var(--sand-soft);font-size:16.5px;max-width:56ch}
+
+.mbar{
+  position:sticky;top:70px;z-index:60;
+  padding:14px 0;background:color-mix(in srgb,var(--night) 94%,transparent);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft);
+}
+.mbar__in{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.groups{display:flex;gap:6px;padding:4px;border:1px solid var(--line-soft);border-radius:100px;background:var(--panel)}
+.groups button{
+  padding:9px 17px;border:0;border-radius:100px;background:transparent;color:var(--sand-soft);
+  font-size:13px;font-weight:600;cursor:pointer;transition:background .16s ease,color .16s ease;
+}
+.groups button:hover{color:var(--sand)}
+.groups button.on{background:var(--pandan);color:var(--on-accent)}
+
+.search{position:relative;flex:1 1 210px;min-width:180px}
+.search input{
+  width:100%;padding:12px 16px 12px 40px;border-radius:100px;
+  border:1px solid var(--line);background:var(--panel);color:var(--sand);
+  font-size:14px;font-family:inherit;
+}
+.search input::placeholder{color:var(--muted)}
+.search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted)}
+
+.sort{
+  padding:12px 15px;border-radius:100px;border:1px solid var(--line);
+  background:var(--panel);color:var(--sand-soft);font-size:13.5px;font-family:inherit;cursor:pointer;
+}
+
+.mcount{padding:22px 0 4px;font-size:13px;color:var(--muted);letter-spacing:.03em}
+
+.cat{border-bottom:1px solid var(--line-soft)}
+.cat__btn{
+  width:100%;display:flex;align-items:center;gap:16px;
+  padding:22px 4px;background:none;border:0;cursor:pointer;text-align:left;
+}
+.cat__btn:hover .cat__name{color:var(--pandan)}
+.cat__name{font-size:clamp(18px,2.4vw,24px);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;transition:color .16s ease}
+.cat__meta{margin-left:auto;display:flex;align-items:center;gap:16px;font-size:13px;color:var(--muted);font-variant-numeric:lining-nums tabular-nums;white-space:nowrap}
+.cat__chev{
+  width:26px;height:26px;flex:0 0 auto;display:grid;place-items:center;
+  border:1px solid var(--line);border-radius:100px;transition:transform .28s ease,border-color .16s ease;
+}
+.cat__btn[aria-expanded="true"] .cat__chev{transform:rotate(180deg);border-color:var(--pandan);color:var(--pandan)}
+.cat__body{display:none;padding-bottom:24px}
+.cat.open .cat__body{display:block}
+
+.item{display:flex;align-items:baseline;gap:12px;padding:13px 4px;border-top:1px solid var(--line-soft)}
+.item__main{min-width:0}
+.item__name{font-size:16px;font-weight:600}
+.item__desc{margin-top:4px;font-family:var(--serif);font-size:14px;line-height:1.45;color:var(--muted)}
+.item__dots{flex:1;height:1px;min-width:12px;align-self:center;
+  background-image:radial-gradient(circle,var(--line) 1px,transparent 1px);background-size:6px 1px;background-repeat:repeat-x}
+.item__price{font-size:15.5px;font-weight:700;font-variant-numeric:lining-nums tabular-nums;white-space:nowrap}
+mark{background:color-mix(in srgb,var(--pandan) 34%,transparent);color:inherit;border-radius:2px;padding:0 2px}
+
+.empty{padding:60px 0;text-align:center;color:var(--muted);font-family:var(--serif);font-size:17px}
+.mnote{margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line-soft);font-size:13px;color:var(--muted);max-width:74ch}
+
+/* ================= mobile bar ================= */
+.callbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;gap:8px;
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb,var(--night) 94%,transparent);
+  backdrop-filter:blur(12px);border-top:1px solid var(--line-soft);
+}
+.callbar .btn{flex:1}
+
+/* ================= reveal ================= */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* ================= responsive ================= */
+@media (max-width:1000px){
+  .wine,.contact{grid-template-columns:1fr;gap:38px}
+  .facts__in{grid-template-columns:1fr 1fr}
+  .quotes{columns:2}
+  .atmo{grid-template-columns:repeat(2,1fr);grid-auto-rows:180px}
+  .shot--big{grid-column:span 2;grid-row:span 2}
+  .shot--tall{grid-row:span 1}
+}
+@media (max-width:760px){
+  .nav__links{display:none}
+  .nav__links.open{
+    display:flex;flex-direction:column;gap:0;position:absolute;left:0;right:0;top:100%;
+    background:var(--night);border-bottom:1px solid var(--line);
+  }
+  .nav__links.open a{padding:16px 26px;border-top:1px solid var(--line-soft)}
+  .nav__act{margin-left:auto}
+  .nav__act .btn{display:none}
+  .burger{display:block}
+  .hero{min-height:min(78vh,600px)}
+  .hero__in{padding-top:80px;padding-bottom:44px}
+  .sec{padding:60px 0}
+  .close{padding:64px 0}
+  .quotes{columns:1}
+  .callbar{display:flex}
+  .foot{padding-bottom:98px}
+  .mbar{top:70px}
+  .mbar__in{gap:8px}
+  .groups{width:100%;justify-content:space-between}
+  .groups button{flex:1;padding:9px 8px;font-size:12.5px}
+  .atmo{grid-auto-rows:130px}
+}
+</style>
+
+<script>
+(function () {
+  try {
+    var s = localStorage.getItem('mib-theme');
+    if (s === 'light' || s === 'dark') document.documentElement.setAttribute('data-theme', s);
+  } catch (e) {}
+})();
+</script>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="logo" href="#/">
+      <b>Made in Bali</b>
+      <span>Ресторан · Бар · Пушкинская наб.</span>
+    </a>
+    <nav class="nav__links" id="links">
+      <a href="#/" data-nav="home">Ресторан</a>
+      <a href="#/menu" data-nav="menu">Меню</a>
+      <a href="#/#bar">Бар</a>
+      <a href="#/#atmo">Атмосфера</a>
+      <a href="#/#contacts">Контакты</a>
+    </nav>
+    <div class="nav__act">
+      <button class="tglt" id="theme" type="button" aria-label="Сменить тему">
+        <svg class="tglt__ico tglt__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.6v2.2M12 19.2v2.2M21.4 12h-2.2M4.8 12H2.6M18.6 5.4L17 7M7 17l-1.6 1.6M18.6 18.6L17 17M7 7L5.4 5.4"/>
+        </svg>
+        <svg class="tglt__ico tglt__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8z"/>
+        </svg>
+      </button>
+      <a class="btn btn--sm" href="tel:+74954324222">Забронировать</a>
+      <button class="burger" id="burger" aria-label="Меню навигации" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ LANDING ============================ -->
+<main class="view on" id="view-home">
+
+<section class="hero">
+  <img class="hero__img" src="img/hall-river.webp"
+       alt="Зал ресторана с плетёным потолком, макраме и панорамными окнами с видом на Москву-реку">
+  <div class="hero__veil" aria-hidden="true"></div>
+  <div class="wrap hero__in">
+    <div class="hero__copy">
+      <div class="status" id="status">
+        <span class="status__dot" aria-hidden="true"></span>
+        <span id="statusText">Уточняем режим работы</span>
+      </div>
+      <h1>Остров<br>на Пушкинской<span>набережной</span></h1>
+      <p class="hero__sub">
+        Девять тысяч артефактов, привезённых с Бали, резное дерево и маски — и панорамные окна,
+        за которыми Москва-река и закат. Кухня, бар и вечеринки по выходным.
+      </p>
+      <div class="hero__cta">
+        <a class="btn" href="tel:+74954324222">Забронировать столик</a>
+        <a class="btn btn--ghost" href="#/menu">Смотреть меню</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="facts">
+  <div class="wrap"><div class="facts__in">
+    <div class="rv"><b>4,4</b><span>рейтинг на Яндекс Картах<br>по 302 оценкам</span></div>
+    <div class="rv"><b>92%</b><span>гостей отдельно хвалят<br>интерьер ресторана</span></div>
+    <div class="rv"><b>400 м</b><span>от входа<br>в Парк Горького</span></div>
+    <div class="rv"><b>12–00</b><span>работаем ежедневно,<br>без выходных</span></div>
+  </div></div>
+</section>
+
+<section class="sec" id="kitchen">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="eyebrow">Кухня</span>
+        <h2>Что заказать в первый раз</h2>
+      </div>
+      <p class="grow">Индонезийская классика и гриль на открытом огне. Полное меню — больше двухсот позиций.</p>
+    </div>
+    <div class="rail" id="railDish"></div>
+    <p class="rail__hint">Листайте вбок →</p>
+    <div style="margin-top:26px"><a class="btn btn--ghost" href="#/menu">Всё меню и цены</a></div>
+  </div>
+</section>
+
+<section class="sec sec--tint" id="bar">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="eyebrow">Авторский бар</span>
+        <h2>Коктейли с именами острова</h2>
+      </div>
+      <p class="grow">Девять авторских позиций: пандан, кокос, куркума, чили, лемонграсс. Есть безалкогольная линейка по 750 ₽.</p>
+    </div>
+    <div class="rail" id="railCkt"></div>
+    <p class="rail__hint">Листайте вбок →</p>
+  </div>
+</section>
+
+<section class="sec" id="wine">
+  <div class="wrap wine">
+    <div>
+      <span class="eyebrow">Винная карта</span>
+      <h2 class="display" style="font-size:clamp(26px,3.8vw,44px);margin:12px 0 16px">45 позиций<br>из десяти стран</h2>
+      <p class="prose" style="color:var(--sand-soft);font-size:17px">
+        От российского шардоне за 890 ₽ до Гран Крю Классе из Марго. Бургундия, Бордо, Пьемонт,
+        Тоскана, Крым, Австрия, Новая Зеландия — карта собрана под азиатскую кухню.
+      </p>
+      <ul class="flags">
+        <li>Франция</li><li>Италия</li><li>Россия</li><li>Испания</li><li>Австрия</li>
+        <li>Германия</li><li>Грузия</li><li>Чили</li><li>Аргентина</li><li>Австралия</li><li>Новая Зеландия</li>
+      </ul>
+      <div style="margin-top:26px"><a class="btn btn--ghost" href="#/menu">Открыть винную карту</a></div>
+    </div>
+    <div class="wine__stats">
+      <div><b>24</b><span>красных вина</span></div>
+      <div><b>21</b><span>белое вино</span></div>
+      <div><b>890 ₽</b><span>самая доступная бутылка</span></div>
+      <div><b>52 800 ₽</b><span>топовая позиция карты</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--tint" id="atmo">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="eyebrow">Атмосфера</span>
+        <h2>Девять тысяч артефактов</h2>
+      </div>
+      <p class="grow">Интерьер — главное, за что сюда возвращаются: 92% гостей упоминают его в отзывах положительно.</p>
+    </div>
+    <div class="atmo">
+      <figure class="shot shot--big rv">
+        <img src="img/carved-wood.webp" loading="lazy"
+             alt="Резное дерево во всю высоту зала, плетёные лампы и макраме под потолком">
+      </figure>
+      <figure class="shot shot--tall rv">
+        <img src="img/hall-macrame.jpg" loading="lazy"
+             alt="Зал с макраме под потолком, накрытыми столами и настольными лампами">
+      </figure>
+      <figure class="shot rv">
+        <img src="img/mood-bowl.webp" loading="lazy" alt="Керамическая миска на деревянном столе в закатном свете">
+      </figure>
+      <figure class="shot rv">
+        <img src="img/mood-noodles.webp" loading="lazy" alt="Керамическая миска с лапшой, зелёным луком и орехами">
+      </figure>
+    </div>
+    <p class="atmo__note">
+      Резное балийское дерево, маски и вещи, привезённые с острова. Вечером — тёплые лампы,
+      как на Бали, и закат в панорамных окнах над Москвой-рекой. Есть второй этаж и веранда,
+      а по выходным в зале проходят вечеринки.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="eyebrow">Отзывы гостей</span>
+        <h2>271 отзыв на Яндекс Картах</h2>
+      </div>
+      <p class="grow">Цитаты гостей — без правок.</p>
+    </div>
+    <div class="quotes">
+      <figure class="quote rv">
+        <p>Интерьер необычный и очень уютный, особенно завораживает потолок и балийское дерево вокруг. Советую посетить в вечернее время: из панорамных окон очень красивый вид на закат и набережную.</p>
+        <figcaption class="quote__by"><b>София К.</b><span>Знаток города 5 уровня</span></figcaption>
+      </figure>
+      <figure class="quote rv">
+        <p>Интерьер — это отдельная история. Даже освещение вечером точь-в-точь как на острове. По выходным здесь проходят вечеринки: звук, антураж, энергетика — спокойно, тепло, легко.</p>
+        <figcaption class="quote__by"><b>Анна И.</b><span>Знаток города 6 уровня</span></figcaption>
+      </figure>
+      <figure class="quote rv">
+        <p>Атмосфера, кухня, музыка, вид на реку — всё сложилось в идеальный вечер. Обязательно вернёмся ещё много раз!</p>
+        <figcaption class="quote__by"><b>Анна С.</b><span>Знаток города 2 уровня</span></figcaption>
+      </figure>
+      <figure class="quote rv">
+        <p>Внутри очень хорошо всё задекорировано, как будто действительно оказываешься в Индонезии. Будете гулять в Парке Горького — обязательно загляните.</p>
+        <figcaption class="quote__by"><b>Полина Б.</b><span>Знаток города 5 уровня</span></figcaption>
+      </figure>
+      <figure class="quote rv">
+        <p>Классный интерьер, дизайнеры постарались, много интересных вещей, привезённых с острова: можно посидеть порассматривать, пока ожидаешь заказ.</p>
+        <figcaption class="quote__by"><b>Иван Т.</b><span>Дегустатор 4 уровня</span></figcaption>
+      </figure>
+      <figure class="quote rv">
+        <p>Сижу ужинаю, закатное солнце светит в глаза, музыка расслабляет — и я не хочу отсюда уходить.</p>
+        <figcaption class="quote__by"><b>Алёна Е.</b><span>Дегустатор 6 уровня</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--tint" id="contacts">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="eyebrow">Контакты</span>
+        <h2>Пушкинская набережная, 6</h2>
+      </div>
+      <p class="grow">Между Парком Горького и Нескучным садом, окнами на Москву-реку.</p>
+    </div>
+    <div class="contact">
+      <div>
+        <dl class="dl">
+          <div>
+            <dt>Адрес</dt>
+            <dd>Пушкинская наб., 6, Москва<small>Парк Горького, вид на набережную</small></dd>
+          </div>
+          <div>
+            <dt>Бронь и вопросы</dt>
+            <dd><a class="link num" href="tel:+74954324222">+7 (495) 432-42-22</a></dd>
+          </div>
+          <div>
+            <dt>Режим работы</dt>
+            <dd class="num">Ежедневно 12:00–00:00<small>Без выходных. Время московское</small></dd>
+          </div>
+        </dl>
+        <div style="margin-top:26px">
+          <span class="eyebrow">Как добраться</span>
+          <ul class="routes">
+            <li><b>400 м</b><span>Парк Горького, главный вход</span></li>
+            <li><b>720 м</b><span>Метро Парк культуры</span></li>
+            <li><b>—</b><span>Еда и напитки навынос, можно с собакой</span></li>
+          </ul>
+          <a class="btn btn--ghost" target="_blank" rel="noopener" href="https://yandex.ru/maps/org/made_in_bali/132410573523/">Маршрут на Яндекс Картах</a>
+        </div>
+      </div>
+      <figure class="ph" style="margin:0;aspect-ratio:4/3">
+        <svg class="ph__art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.1">
+            <path d="M0 210h400M0 232h400M0 254h400"/>
+            <path d="M60 300V120a40 40 0 0 1 80 0v180"/>
+            <path d="M260 300V150a30 30 0 0 1 60 0v150"/>
+            <circle cx="330" cy="70" r="34"/>
+          </g>
+        </svg>
+        <figcaption class="ph__tag">Вид на набережную · фото заведения</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="wrap">
+    <h2>Столик на вечер</h2>
+    <p>Закат в панорамных окнах начинается раньше, чем кажется. Бронируйте заранее — по выходным аншлаг.</p>
+    <div class="close__cta">
+      <a class="btn" href="tel:+74954324222">+7 (495) 432-42-22</a>
+      <a class="btn btn--ghost" href="#/menu">Смотреть меню</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============================ MENU ============================ -->
+<main class="view" id="view-menu">
+  <div class="wrap mhead">
+    <span class="eyebrow">Меню и цены</span>
+    <h1 style="margin-top:12px">Меню Made in Bali</h1>
+    <p>Кухня, бар и напитки целиком. Нажмите на категорию, чтобы раскрыть её, или найдите блюдо поиском.</p>
+  </div>
+
+  <div class="mbar">
+    <div class="wrap mbar__in">
+      <div class="groups" id="groups" role="tablist">
+        <button type="button" class="on" data-group="Кухня" role="tab">Кухня</button>
+        <button type="button" data-group="Бар" role="tab">Бар</button>
+        <button type="button" data-group="Напитки" role="tab">Напитки</button>
+      </div>
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+        </svg>
+        <input type="search" id="q" placeholder="Найти блюдо, вино, коктейль…" aria-label="Поиск по меню">
+      </label>
+      <select class="sort" id="sort" aria-label="Сортировка">
+        <option value="menu">Порядок меню</option>
+        <option value="asc">Сначала дешевле</option>
+        <option value="desc">Сначала дороже</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <p class="mcount" id="mcount"></p>
+    <div id="cats"></div>
+    <p class="mnote">
+      Меню обновлено 7 августа, источник — представитель организации на Яндекс Картах.
+      Наличие позиций уточняйте по телефону: часть блюд и напитков сезонная.
+      Цены указаны в рублях за порцию или бутылку.
+    </p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <b>Made in Bali</b>
+    <span>Пушкинская наб., 6, Москва · Ежедневно 12:00–00:00</span>
+    <div class="grow">
+      <a href="tel:+74954324222">+7 (495) 432-42-22</a>
+      <a target="_blank" rel="noopener" href="https://yandex.ru/maps/org/made_in_bali/132410573523/">Яндекс Карты</a>
+    </div>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="btn" href="tel:+74954324222">Забронировать</a>
+  <a class="btn btn--ghost" href="#/menu">Меню</a>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Restaurant",
+  "name":"Made in Bali",
+  "telephone":"+7 495 432-42-22",
+  "servesCuisine":"Индонезийская, балийская, азиатская",
+  "address":{"@type":"PostalAddress","streetAddress":"Пушкинская набережная, 6","addressLocality":"Москва","addressCountry":"RU"},
+  "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.4","reviewCount":"271","ratingCount":"302"},
+  "priceRange":"800–4500 ₽",
+  "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"12:00","closes":"00:00"}]
+}
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ===================== menu data ===================== */
+  var MENU = [
+    ['Кухня', 'Easy / Ready — закуски', [
+      ['Острый виноград', 'Сладко-острая закуска из винограда', 350],
+      ['Оливки в пряном маринаде', 'Оливки в ароматном пряном маринаде', 350],
+      ['Хумус', 'С оливковым маслом и креветочными чипсами', 450],
+      ['Маринованный корень лотоса', 'Хрустящая азиатская закуска', 480],
+      ['Перепелиные яйца', 'В пряном маринаде', 650],
+      ['Козий сыр', 'С трюфельным мёдом', 650],
+      ['Мортаделла', 'Ломтики мортаделлы', 650],
+      ['Хамон', 'Сыровяленый хамон — к вину и коктейлям', 1200],
+      ['Ассорти закусок', 'Сет закусок — формат для компании', 3500],
+      ['Большое ассорти', 'Расширенный сет для большой компании', 6300]
+    ]],
+    ['Кухня', 'Закуски', [
+      ['Фасоль эдамаме с острым перцем', 'Лёгкая азиатская закуска к напиткам', 400],
+      ['Древесные грибы в соевом соусе', 'Упругая текстура, насыщенный вкус', 400],
+      ['Ананасы кимчи', 'Сладко-острая закуска из ананаса', 400],
+      ['Битые огурцы', 'С чесноком и специями', 400],
+      ['Маринованные томаты черри', 'В кисло-сладком азиатском маринаде', 400],
+      ['Чили-чипсы с арахисом', 'Хрустящий острый снек', 400],
+      ['Бабагануш с креветочными чипсами', 'Из печёного баклажана', 400],
+      ['Креветочные чипсы с айоли из биска', 'Айоли на основе ракового биска', 400]
+    ]],
+    ['Кухня', 'Хруст', [
+      ['Лумпия со свининой', 'Филиппинские спринг-роллы', 750],
+      ['Картофель фри / батат фри', 'На выбор, с пармезаном', 500],
+      ['Добавка: бекон, 50 г', '', 300],
+      ['Добавка: пармезан, 20 г', '', 300],
+      ['Добавка: фуа-гра, 50 г', '', 1100]
+    ]],
+    ['Кухня', 'Лумпии', [
+      ['Лумпия с креветками', 'Хит: хрустящая лумпия с креветками', 1200],
+      ['Лумпия с лососем', 'Хрустящие спринг-роллы с лососем', 1100],
+      ['Лумпия с крабом', 'Хрустящие спринг-роллы с крабом', 1800]
+    ]],
+    ['Кухня', 'Роти', [
+      ['Роти с бабаганушем', 'Маринованные томаты и пыль из брынзы', 800],
+      ['Роти с креветкой', 'Маринованный цукини и гуакамоле', 1200],
+      ['Роти с рваной говядиной ренданг', 'С трюфельной кукурузой', 1200]
+    ]],
+    ['Кухня', 'Сатай', [
+      ['Халуми сатай', 'Вегетарианский сатай из сыра халуми', 850],
+      ['Добавь наси горенг', 'Порция наси горенга к сатаю', 750]
+    ]],
+    ['Кухня', 'Салаты', [
+      ['Зелёный салат', 'Лёгкое дополнение к основным блюдам', 750],
+      ['Хрустящие овощи', 'С арахисово-цитрусовым соусом', 650],
+      ['Салат с баклажаном', 'Сочные томаты и фета', 750],
+      ['Салат с курицей и помело', 'Кешью и лемонграсс', 850],
+      ['Салат с креветками и апельсином', 'Хит меню', 1250]
+    ]],
+    ['Кухня', 'Супы', [
+      ['Окрошка на квасе или кефире', 'Летняя окрошка на выбор', 650],
+      ['Тыквенный крем-суп', 'С карри на кокосовом молоке', 750],
+      ['Куриный суп «Сото Айям»', 'Индонезийский суп с лапшой и лаймом', 800],
+      ['Тамариндовый бульон', 'Кисло-пряный, с лапшой и овощами', 850],
+      ['Холодный томатный суп', 'С креветками', 850],
+      ['Пряный суп «Лакса»', 'Креветки, кокос, специи', 990],
+      ['Добавка: яйцо', '', 80],
+      ['Добавка: тофу', '', 450],
+      ['Добавка: креветки', '', 500],
+      ['Добавка: гребешок', '', 750]
+    ]],
+    ['Кухня', 'Поке', [
+      ['Зелёный поке с папайей', 'Вегетарианское, с овощами', 1300],
+      ['Поке с тунцом и манго', 'С рисом', 1500],
+      ['Поке с креветками', 'И ананасами в стиле кимчи', 1700],
+      ['Поке с лососем и помело', 'С рисом и свежим помело', 1900]
+    ]],
+    ['Кухня', 'Лапша и рис', [
+      ['Наси горенг классический', 'Индонезийский жареный рис — базовый вкус Бали', 800],
+      ['Рисовая лапша с овощами', 'С соусом кечап манис', 850],
+      ['Наси горенг с курицей', '', 950],
+      ['Рисовая лапша с курицей', 'С соусом кечап манис', 980],
+      ['Наси горенг с креветками', '', 1300],
+      ['Рисовая лапша с креветками', 'С соусом кечап манис', 1300],
+      ['Добавка: перепелиное яйцо', '', 80],
+      ['Добавка: куриное яйцо', '', 100],
+      ['Добавка: тофу', 'Вегетарианский вариант', 450],
+      ['Добавка: креветки', '', 500],
+      ['Добавка: говядина', '', 500],
+      ['Добавка: гребешок', '', 750],
+      ['Добавка: краб', '', 1450]
+    ]],
+    ['Кухня', 'Лепёшки и кесадильи', [
+      ['Лепёшка с баклажаном', 'Копчёный баклажан и томаты', 950],
+      ['Лепёшка с мортаделлой', 'С трюфельным соусом', 950],
+      ['Кесадилья четыре сыра', 'Горячая, с четырьмя видами сыра', 950],
+      ['Кесадилья с курицей', 'Поджаренная', 950],
+      ['Кесадилья с говядиной', 'Сытная', 950],
+      ['Лепёшка со страчателлой', 'С томатной сальсой', 1100]
+    ]],
+    ['Кухня', 'Гриль — сатай', [
+      ['Свиные рёбра в кисло-сладком соусе', 'На гриле', 950],
+      ['Сатай из курицы', 'Тонкацу-глазурь, зелёный салат, гуакамоле', 950],
+      ['Сатай из говядины', 'Тонкацу-глазурь, зелёный салат, гуакамоле', 1250],
+      ['Сатай из тунца', 'Даши-глазурь, зелёный салат, гуакамоле', 1350],
+      ['Сатай из креветки', 'Цитрусовый унаги, зелёный салат, гуакамоле', 1350],
+      ['Межрёберная говядина на гриле', 'Насыщенная, с дымом', 1500],
+      ['Сатай из лосося', 'Даши-глазурь, зелёный салат, гуакамоле', 1600],
+      ['Сатай из гребешка', 'Цитрусовый унаги, зелёный салат, гуакамоле', 1600],
+      ['Цыплёнок в карри', 'С пеной из кокоса', 1600],
+      ['Сибас на гриле', 'С кремом из эдамаме', 1650]
+    ]],
+    ['Кухня', 'Fire — открытый огонь', [
+      ['Куриные крылья', 'Соус на выбор: самбал, BBQ, чили или хойсин', 750],
+      ['Трюфельный бургер', 'Сочный, с трюфельным акцентом', 950],
+      ['Чизбургер', 'Классический — простой и точный', 950],
+      ['Цыплёнок Made in Bali', 'Фирменный цыплёнок с огня', 1200],
+      ['Говяжьи рёбра', 'В яванском стиле — мягкие, с глубоким вкусом', 1600],
+      ['Рибай прайм', 'Премиальный стейк рибай', 4500],
+      ['Добавка: котлета из мраморной говядины', '', 250],
+      ['Добавка: фуа-гра', '', 1100]
+    ]],
+    ['Кухня', 'Десерты', [
+      ['Мороженое', 'Кокос, ваниль, клубника, шоколад, мисо', 200],
+      ['Сорбет', 'Манго-маракуйя, лимон, малина-юдзу', 350],
+      ['Орешки', 'Классические, со сгущёнкой', 750],
+      ['Медовик', 'Классический медовый торт', 750],
+      ['Ананас на гриле', 'С сиропом из перца чили', 850],
+      ['Панна-котта с клубникой и юдзу', 'Сливочная', 850],
+      ['Шоколадный чизкейк', 'Насыщенный', 850],
+      ['Профитроли', 'С кремом манго-маракуйя', 850],
+      ['Шоколадно-фисташковый десерт', 'Насыщенный, с фисташкой', 850],
+      ['Корзинка с малиной', 'Хрустящая, с кремом из кокоса', 1200]
+    ]],
+    ['Кухня', 'Детское меню', [
+      ['Профитроли с заварным кремом', '', 750],
+      ['Куриный попкорн', 'С рисом и овощами', 800],
+      ['Суп «Бахсо»', 'С фрикадельками и рисовой лапшой', 900],
+      ['Рыбные котлеты', 'С брокколи и свежими томатами', 1200]
+    ]],
+    ['Кухня', 'Соусы', [
+      ['Соус на выбор', 'Самбал, чили, BBQ, хойсин, сырный, кетчуп, перечный, сливочно-грибной', 150]
+    ]],
+
+    ['Бар', 'Авторские коктейли', [
+      ['Тирта Эмпул', 'Пандан / лайм / вермут', 950],
+      ['Шум Волн в Джимбаране', 'Ром / кокос / лайм', 950],
+      ['Танец Легонг', 'Гранат / черника / игристое вино', 950],
+      ['Тропа в Джунглях', 'Апельсин / куркума / джин', 950],
+      ['Ритуал Баронга', 'Апельсин / лайм / джин', 950],
+      ['Священное Хлопковое Дерево', 'Арахис / водка / кофе', 950],
+      ['Бамбуковый Мост', 'Мята / херес / белый шоколад', 950],
+      ['Чананг Сари', 'Кокос / банан / ром', 1150],
+      ['Вулкан Агунг', 'Джин / чили', 1150]
+    ]],
+    ['Бар', 'Безалкогольные коктейли', [
+      ['Лотос на озере Батур', 'Мескаль / лайм / хмель', 750],
+      ['Рассвет на пляже Семиньяк', 'Лайм / черемуха / табаско', 750],
+      ['Закатное Солнце', 'Красный вермут / персик / черника', 750]
+    ]],
+    ['Бар', 'Вино красное', [
+      ['Tempranillo Como Una Moto', 'Испания — яркий фруктовый характер', 3900],
+      ['Carmenere Maule Valle 2024', 'Чили — долина Мауле', 4200],
+      ['Pinot Noir 2023, Jack&Jen', 'Австрия — лёгкий стиль', 4600],
+      ['Chianti Riserva Pichini', 'Италия — классическое кьянти ризерва', 4900],
+      ['Kindzmarauli Marani', 'Грузия — полусладкое', 5100],
+      ['Pure Organic Malbec', 'Аргентина — органический мальбек', 5250],
+      ['Pinot Noir 2024, Famille Decombe', 'Франция — лёгкий пино нуар', 6000],
+      ['Shiraz Rocky Gully', 'Австралия — насыщенный шираз', 8100],
+      ['Мерло 2024, Галицкий и Галицкий', 'Россия — мягкие танины', 8700],
+      ['Легато Каберне Фран 2020', 'Россия — с выдержкой', 9500],
+      ['Graves 2017, Chateau de Graves', 'Франция — Бордо, регион Грав', 9500],
+      ['Spatburgunder Burrweiler 2020', 'Германия — шпетбургундер, Herbert Messmer', 10900],
+      ['La Sirene de Giscours 2015', 'Франция — второе вино шато Жискур, Марго', 19900],
+      ['Brunello di Montalcino 2020', 'Италия — Siro Pacenti', 19900],
+      ['Mercurey Clos la Marche 2021', 'Франция — бургундское, Domaine MIA', 22500],
+      ['Chateau Gloria 2011', 'Франция — Сен-Жюльен, с выдержкой', 22500],
+      ['Barolo Ginestra 2019', 'Италия — Пьемонт, Paolo Conterno', 22500],
+      ['Les Pagodes de Cos 2007', 'Франция — второе вино Cos d’Estournel', 25900],
+      ['Gevrey-Chambertin 2022', 'Франция — Domaine Lucien Boillot', 29500],
+      ['Pommard Les Saussilles 2018', 'Франция — M. Ch. Noellat', 35900],
+      ['Chambolle-Musigny 2021', 'Франция — Domaine J.J. Confuron', 45900],
+      ['Chateau Rauzan-Segla 2020', 'Франция — Гран Крю Классе, Марго', 52800],
+      ['Номерной Резерв Фанагория', 'Россия — доступное красное', 2450],
+      ['Пти Вердо Крым 2023, Бельбек', 'Россия — плотная структура', 4900]
+    ]],
+    ['Бар', 'Вино белое', [
+      ['Шардоне 2024, Усадьба Белогорье', 'Россия — лёгкое молодое', 890],
+      ['Семисам Шумринка', 'Россия — из винной карты ресторана', 3800],
+      ['Vinho Verde Ocean Buffet', 'Португалия — лёгкая игристость', 3900],
+      ['Riesling Heninger Edelweisshof', 'Германия — яркая кислотность', 4500],
+      ['Chardonnay Loncomilla 2024', 'Чили — V. Carta Vieja', 4500],
+      ['Pinot Grigio delle Venezie', 'Италия — лёгкое и свежее', 4900],
+      ['Asia Cuvee Mayer am Pfarrplatz', 'Австрия — купаж под азиатскую кухню', 5450],
+      ['Мускат 2021, Рем Акчурин', 'Россия — ароматный мускат', 5490],
+      ['Sauvignon Blanc Moon Twist', 'Новая Зеландия — тропическая ароматика', 5750],
+      ['Gewurztraminer 2024', 'Италия — Mastri Vernacoli, пряные ноты', 6200],
+      ['Pfefferer', 'Италия — Альто-Адидже', 6800],
+      ['Рислинг Севастополь 2024, Олег Репин', 'Россия — яркая минеральность', 7600],
+      ['Bourgogne Chardonnay 2024', 'Франция — Domaine Laroche', 9500],
+      ['Lugana I Frati 2024', 'Италия — Ca dei Frati', 11800],
+      ['Gavi dei Gavi Etichetta Nera 2024', 'Италия — La Scolca', 12500],
+      ['Sauvignon Blanc Winkl 2024', 'Италия — Cantina Terlan, Южный Тироль', 13800],
+      ['Chablis Vieilles Vignes 2023', 'Франция — со старых лоз, Jean Notton', 14900],
+      ['Sancerre 2024, Paul Thomas', 'Франция — Луара, свежий совиньон', 14900],
+      ['Meursault 2017, Francois Gaunoux', 'Франция — премиальное бургундское', 36000],
+      ['Puligny-Montrachet 1er Cru 2020', 'Франция — Vincent Girardin', 42000]
+    ]],
+    ['Бар', 'Виски и бурбон', [
+      ['Jack Daniels', 'США — теннессийский виски', 850],
+      ['Kavalan single malt', 'Тайвань — односолодовый', 1050],
+      ['Macallan 12', 'Шотландия — односолодовый, 12 лет', 1550],
+      ['Togouchi 9 old', 'Япония — купажированный, 9 лет', 2550],
+      ['Macallan 18', 'Шотландия — односолодовый, 18 лет', 3550],
+      ['Kavalan Lan', 'Тайвань — премиальная линейка', 3550]
+    ]],
+    ['Бар', 'Джин', [
+      ['Bombay Sapphire', 'Англия — классический', 1050],
+      ['Mankai Artisane Japanese', 'Япония — крафтовый', 1250],
+      ['Hendrick’s', 'Шотландия — ноты огурца и розы', 1750],
+      ['Monkey 47', 'Германия — 47 ботаникалов', 3550]
+    ]],
+    ['Бар', 'Ром', [
+      ['Plantation 3', 'Карибы — выдержка 3 года', 850],
+      ['Matusalem 7 solera', 'Куба — солера 7 лет', 1250],
+      ['Zacapa 23', 'Гватемала — премиальный, 23 года', 1650],
+      ['Zacapa XO', 'Гватемала — категория XO', 3650]
+    ]],
+    ['Бар', 'Текила', [
+      ['Patron Silver', 'Мексика — серебряная', 1450],
+      ['Patron Reposado', 'Мексика — репосадо', 1750],
+      ['Don Julio 1942', 'Мексика — премиальная выдержанная', 5550],
+      ['Clase Azul Reposado', 'Мексика — в керамической бутылке', 7550]
+    ]],
+    ['Бар', 'Водка и байдзю', [
+      ['Beluga Nobile', 'Россия — премиум-класс', 650],
+      ['Beluga Gold Line', 'Россия — линейка Gold', 850],
+      ['Julang Baijiu', 'Китай — байдзю', 850],
+      ['Beluga Alure', 'Россия — ароматизированная', 950],
+      ['Mont Blanc', 'Премиальная водка', 1050],
+      ['Fenjiu Quinghua Baijiu', 'Китай — премиальный байдзю', 2950]
+    ]],
+    ['Бар', 'Коньяк', [
+      ['Hine VSOP', 'Франция — VSOP', 1250],
+      ['Tesseron VSOP', 'Франция — дом Tesseron', 2250],
+      ['AE Dor XO', 'Франция — XO', 4550],
+      ['Hennessy XO', 'Франция — XO', 4550]
+    ]],
+    ['Бар', 'Аперитивы, дижестивы, вермуты', [
+      ['Beluga Botanical Pear and Linden', 'Груша и липа', 850],
+      ['Branca Menta', 'Италия — мятный дижестив', 850],
+      ['Cake Aladin Yuzu', 'Ликёр со вкусом юдзу', 850],
+      ['The Choya Слива', 'Япония — сливовый ликёр', 850]
+    ]],
+    ['Бар', 'Пиво разливное', [
+      ['Helles', 'Светлое, баварский стиль', 700],
+      ['Stout', 'Тёмный стаут', 700],
+      ['Blanche', 'Бельгийское пшеничное', 700]
+    ]],
+    ['Бар', 'Пиво бутылочное', [
+      ['Lucky Buddha', 'Китай', 600],
+      ['Corona', 'Мексика — светлое', 600],
+      ['Tsingtao', 'Китай — светлое', 600],
+      ['DeVans Godfather Lager', 'Крафтовый лагер', 600]
+    ]],
+
+    ['Напитки', 'Кофе', [
+      ['Эспрессо', '', 400],
+      ['Американо', '', 400],
+      ['Капучино', '', 450],
+      ['Флэт Уайт', '', 450],
+      ['Латте', '', 450],
+      ['Эспрессо тоник лайм-личи', '', 550],
+      ['Бамбл', '', 650]
+    ]],
+    ['Напитки', 'Чай', [
+      ['Сенча', '', 600],
+      ['Жасмин', '', 600],
+      ['Ассам', '', 600],
+      ['Эрл Грей', '', 600],
+      ['Тибетская ромашка', '', 600],
+      ['Молочный улун', '', 600]
+    ]],
+    ['Напитки', 'Баблти', [
+      ['Молочный улун / кокосовый йогурт / лайм', 'Чай с тапиоковыми шариками', 750],
+      ['Жасмин / шисо / ревень / манго', 'Чай с тапиоковыми шариками', 750]
+    ]],
+    ['Напитки', 'Лимонады', [
+      ['Лаванда-Роза', 'Авторский лимонад', 550],
+      ['Ситро', 'Авторский лимонад', 550],
+      ['Шисо-Ревень', 'Авторский лимонад', 550]
+    ]],
+    ['Напитки', 'Свежевыжатые соки', [
+      ['Апельсиновый', '', 550],
+      ['Яблоко-огурец-сельдерей', '', 550],
+      ['Апельсин-грейпфрут-имбирь', '', 550],
+      ['Питахайя-лайм-чили', '', 550]
+    ]],
+    ['Напитки', 'Прохладительные', [
+      ['Coca-Cola, 250 мл', '', 500],
+      ['Tonic, 250 мл', '', 500],
+      ['Сок в ассортименте', '', 500],
+      ['Tassay, 500 мл', '', 500],
+      ['Tassay, 750 мл', '', 650]
+    ]]
+  ];
+
+  var HITS = [
+    ['Наси горенг классический', 'Индонезийский жареный рис — базовый вкус Бали', 800, 'Хит'],
+    ['Лумпия с креветками', 'Хрустящие спринг-роллы, хит меню', 1200, 'Хит'],
+    ['Говяжьи рёбра', 'В яванском стиле — мягкие, с глубоким вкусом', 1600, ''],
+    ['Цыплёнок Made in Bali', 'Фирменный цыплёнок с открытого огня', 1200, 'Фирменное'],
+    ['Салат с креветками и апельсином', 'Свежий, хит меню', 1250, 'Хит'],
+    ['Поке с лососем и помело', 'С рисом и свежим помело', 1900, ''],
+    ['Куриные крылья', 'Самбал, BBQ, чили или хойсин', 750, ''],
+    ['Рибай прайм', 'Премиальный стейк с гриля', 4500, '']
+  ];
+
+  var COCKTAILS = [
+    ['Тирта Эмпул', 'Пандан / лайм / вермут', 950],
+    ['Шум Волн в Джимбаране', 'Ром / кокос / лайм', 950],
+    ['Танец Легонг', 'Гранат / черника / игристое', 950],
+    ['Тропа в Джунглях', 'Апельсин / куркума / джин', 950],
+    ['Ритуал Баронга', 'Апельсин / лайм / джин', 950],
+    ['Священное Хлопковое Дерево', 'Арахис / водка / кофе', 950],
+    ['Бамбуковый Мост', 'Мята / херес / белый шоколад', 950],
+    ['Чананг Сари', 'Кокос / банан / ром', 1150],
+    ['Вулкан Агунг', 'Джин / чили', 1150]
+  ];
+
+  /* ===================== helpers ===================== */
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt != null) n.textContent = txt;
+    return n;
+  }
+  function money(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
+  }
+  /* russian plural: 1 позиция, 2 позиции, 5 позиций */
+  function plural(n, one, few, many) {
+    var d = n % 10, c = n % 100;
+    if (d === 1 && c !== 11) return one;
+    if (d >= 2 && d <= 4 && (c < 10 || c >= 20)) return few;
+    return many;
+  }
+  function nOf(n, one, few, many) { return n + ' ' + plural(n, one, few, many); }
+
+
+  /* ===================== landing rails ===================== */
+  var railDish = document.getElementById('railDish');
+  HITS.forEach(function (h, i) {
+    var card = el('article', 'dish');
+    card.innerHTML =
+      '<div class="dish__body">' +
+        '<h3 class="dish__name"></h3>' +
+        '<p class="dish__desc"></p>' +
+        '<div class="dish__foot"><span class="dish__price"></span></div>' +
+      '</div>';
+    card.querySelector('.dish__name').textContent = h[0];
+    card.querySelector('.dish__desc').textContent = h[1];
+    card.querySelector('.dish__price').textContent = money(h[2]);
+    if (h[3]) {
+      var tag = el('span', 'tag', h[3]);
+      card.querySelector('.dish__foot').appendChild(tag);
+    }
+    railDish.appendChild(card);
+  });
+
+  var railCkt = document.getElementById('railCkt');
+  COCKTAILS.forEach(function (c, i) {
+    var card = el('article', 'ckt');
+    card.appendChild(el('span', 'ckt__no', '0' + (i + 1)));
+    card.appendChild(el('h3', 'ckt__name', c[0]));
+    card.appendChild(el('p', 'ckt__mix', c[1]));
+    card.appendChild(el('span', 'ckt__price', money(c[2])));
+    railCkt.appendChild(card);
+  });
+
+  /* ===================== menu view ===================== */
+  var state = { group: 'Кухня', q: '', sort: 'menu', open: {} };
+  var catsBox = document.getElementById('cats');
+  var countBox = document.getElementById('mcount');
+
+  function norm(s) { return s.toLowerCase().replace(/ё/g, 'е'); }
+
+  function highlight(text, q) {
+    if (!q) return document.createTextNode(text);
+    var i = norm(text).indexOf(norm(q));
+    if (i < 0) return document.createTextNode(text);
+    var frag = document.createDocumentFragment();
+    frag.appendChild(document.createTextNode(text.slice(0, i)));
+    var m = el('mark', null, text.slice(i, i + q.length));
+    frag.appendChild(m);
+    frag.appendChild(document.createTextNode(text.slice(i + q.length)));
+    return frag;
+  }
+
+  function renderMenu() {
+    var q = state.q.trim();
+    catsBox.innerHTML = '';
+    var shown = 0, cats = 0;
+
+    MENU.forEach(function (block, bi) {
+      var group = block[0], name = block[1], items = block[2].slice();
+
+      if (!q && group !== state.group) return;
+
+      if (q) {
+        items = items.filter(function (it) {
+          return norm(it[0]).indexOf(norm(q)) >= 0 || norm(it[1]).indexOf(norm(q)) >= 0;
+        });
+      }
+      if (!items.length) return;
+
+      if (state.sort === 'asc') items.sort(function (a, b) { return a[2] - b[2]; });
+      if (state.sort === 'desc') items.sort(function (a, b) { return b[2] - a[2]; });
+
+      cats++;
+      shown += items.length;
+
+      var prices = items.map(function (i) { return i[2]; });
+      var min = Math.min.apply(null, prices), max = Math.max.apply(null, prices);
+
+      var wrapEl = el('section', 'cat');
+      var key = 'c' + bi;
+      var isOpen = !!q || state.open[key] === true || (state.open[key] === undefined && cats === 1);
+      if (isOpen) wrapEl.classList.add('open');
+
+      var btn = el('button', 'cat__btn');
+      btn.type = 'button';
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      btn.innerHTML =
+        '<span class="cat__name"></span>' +
+        '<span class="cat__meta"><span class="cnt"></span><span class="rng"></span>' +
+        '<span class="cat__chev"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></span>';
+      btn.querySelector('.cat__name').textContent = q ? group + ' · ' + name : name;
+      btn.querySelector('.cnt').textContent = nOf(items.length, 'позиция', 'позиции', 'позиций');
+      btn.querySelector('.rng').textContent = min === max ? money(min) : money(min) + ' – ' + money(max);
+
+      btn.addEventListener('click', function () {
+        var nowOpen = !wrapEl.classList.contains('open');
+        wrapEl.classList.toggle('open', nowOpen);
+        btn.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
+        state.open[key] = nowOpen;
+      });
+
+      var body = el('div', 'cat__body');
+      items.forEach(function (it) {
+        var row = el('div', 'item');
+        var main = el('div', 'item__main');
+        var nm = el('div', 'item__name');
+        nm.appendChild(highlight(it[0], q));
+        main.appendChild(nm);
+        if (it[1]) {
+          var ds = el('div', 'item__desc');
+          ds.appendChild(highlight(it[1], q));
+          main.appendChild(ds);
+        }
+        row.appendChild(main);
+        row.appendChild(el('i', 'item__dots'));
+        row.appendChild(el('span', 'item__price', money(it[2])));
+        body.appendChild(row);
+      });
+
+      wrapEl.appendChild(btn);
+      wrapEl.appendChild(body);
+      catsBox.appendChild(wrapEl);
+    });
+
+    if (!cats) {
+      catsBox.appendChild(el('p', 'empty', 'По запросу «' + q + '» ничего не нашлось. Попробуйте другое слово.'));
+      countBox.textContent = '';
+    } else {
+      countBox.textContent = q
+        ? 'Найдено: ' + nOf(shown, 'позиция', 'позиции', 'позиций') +
+          ' в ' + nOf(cats, 'категории', 'категориях', 'категориях')
+        : nOf(cats, 'категория', 'категории', 'категорий') +
+          ' · ' + nOf(shown, 'позиция', 'позиции', 'позиций');
+    }
+  }
+
+  document.getElementById('groups').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-group]');
+    if (!b) return;
+    state.group = b.getAttribute('data-group');
+    state.open = {};
+    [].forEach.call(this.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); });
+    renderMenu();
+  });
+
+  var qInput = document.getElementById('q');
+  var qTimer;
+  qInput.addEventListener('input', function () {
+    clearTimeout(qTimer);
+    var v = this.value;
+    qTimer = setTimeout(function () { state.q = v; renderMenu(); }, 140);
+  });
+
+  document.getElementById('sort').addEventListener('change', function () {
+    state.sort = this.value;
+    renderMenu();
+  });
+
+  renderMenu();
+
+  /* ===================== router ===================== */
+  var views = { home: document.getElementById('view-home'), menu: document.getElementById('view-menu') };
+
+  /* Views are switched directly, not only through the hash: some hosts
+     (sandboxed frames, data: URLs) silently ignore hash changes. The hash is
+     still written when it works, so deep links and the back button keep working. */
+  function applyRoute(h, scroll) {
+    var isMenu = h.indexOf('#/menu') === 0;
+    views.home.classList.toggle('on', !isMenu);
+    views.menu.classList.toggle('on', isMenu);
+
+    [].forEach.call(document.querySelectorAll('[data-nav]'), function (a) {
+      a.classList.toggle('on', a.getAttribute('data-nav') === (isMenu ? 'menu' : 'home'));
+    });
+
+    if (scroll === false) return;
+
+    var anchor = h.indexOf('#/#') === 0 ? h.slice(3) : '';
+    if (anchor) {
+      var t = document.getElementById(anchor);
+      if (t) { t.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+    }
+    window.scrollTo(0, 0);
+  }
+
+  document.addEventListener('click', function (e) {
+    if (!e.target || !e.target.closest) return;
+    var a = e.target.closest('a[href^="#/"]');
+    if (!a) return;
+    e.preventDefault();
+    var to = a.getAttribute('href');
+    applyRoute(to, true);
+    try { if (location.hash !== to) location.hash = to; } catch (err) {}
+  });
+
+  window.addEventListener('hashchange', function () {
+    applyRoute(location.hash || '#/', true);
+  });
+
+  applyRoute(location.hash || '#/', false);
+
+  /* ===================== nav, theme, status ===================== */
+  var burger = document.getElementById('burger');
+  var links = document.getElementById('links');
+  burger.addEventListener('click', function () {
+    var open = links.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  links.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') {
+      links.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  var nav = document.getElementById('nav');
+  function onScroll() { nav.classList.toggle('is-stuck', window.scrollY > 8); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  var themeBtn = document.getElementById('theme');
+  var mq = window.matchMedia('(prefers-color-scheme: light)');
+  function activeTheme() {
+    var st = document.documentElement.getAttribute('data-theme');
+    if (st === 'light' || st === 'dark') return st;
+    return mq.matches ? 'light' : 'dark';
+  }
+  function describe() {
+    var next = activeTheme() === 'dark' ? 'светлую' : 'тёмную';
+    themeBtn.setAttribute('aria-label', 'Переключить на ' + next + ' тему');
+    themeBtn.setAttribute('title', 'Переключить на ' + next + ' тему');
+  }
+  themeBtn.addEventListener('click', function () {
+    var next = activeTheme() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('mib-theme', next); } catch (e) {}
+    describe();
+  });
+  if (mq.addEventListener) mq.addEventListener('change', describe);
+  else if (mq.addListener) mq.addListener(describe);
+  describe();
+
+  /* open 12:00–00:00 daily, Moscow time regardless of visitor zone */
+  function moscowNow() {
+    var n = new Date();
+    return new Date(n.getTime() + n.getTimezoneOffset() * 60000 + 3 * 3600000);
+  }
+  function renderStatus() {
+    var m = moscowNow();
+    var mins = m.getHours() * 60 + m.getMinutes();
+    var box = document.getElementById('status');
+    var txt = document.getElementById('statusText');
+    if (mins >= 720) {
+      box.classList.add('is-open'); box.classList.remove('is-closed');
+      txt.textContent = 'Открыто сейчас · до 00:00';
+    } else {
+      box.classList.add('is-closed'); box.classList.remove('is-open');
+      txt.textContent = 'Закрыто · откроемся в 12:00';
+    }
+  }
+  renderStatus();
+  setInterval(renderStatus, 60000);
+
+  /* ===================== reveal ===================== */
+  var rv = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+    [].forEach.call(rv, function (n) { io.observe(n); });
+  } else {
+    [].forEach.call(rv, function (n) { n.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>
